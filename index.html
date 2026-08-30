@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EYEM translates eye blinks into Morse code and text, in real time, fully in your browser.">
+  <title>EYEM — Eye-Blink Morse Translator</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/style.css?v=41">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/logo.svg" alt="" class="logo-mark" width="86" height="53">
+      <h1 class="logo">EYEM</h1>
+    </div>
+    <p class="tagline">Eye-Blink Morse Translator</p>
+  </header>
+
+  <main class="layout">
+    <section class="stage" aria-label="Camera and reference">
+      <div class="box camera-box" id="cameraBox">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="cam-placeholder" id="camPlaceholder">Camera is off</div>
+        <span class="status-pill" id="statusPill">Off</span>
+        <div class="eye-indicator" id="eyeIndicator" aria-hidden="true" title="Eye status">
+          <svg class="eye-icn eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3.5"/></svg>
+          <svg class="eye-icn eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6A3.5 3.5 0 0 0 12 15.5a3.5 3.5 0 0 0 1.4-.3"/><path d="M9.9 5.2A11.9 11.9 0 0 1 12 5c7 0 11 7 11 7a17.3 17.3 0 0 1-3.6 4.7"/><path d="M14.8 14.8A11.9 11.9 0 0 1 12 17c-7 0-11-7-11-7a17.3 17.3 0 0 1 5.1-5.7"/></svg>
+        </div>
+        <div class="calib-side" id="calibBar" hidden>
+          <div class="calib-side-fill" id="calibFill"></div>
+        </div>
+        <span class="calib-label" id="calibText" hidden>Calibrating — keep eyes open</span>
+      </div>
+
+      <button class="btn btn-primary" id="camToggle">Start Camera</button>
+    </section>
+
+    <section class="io" aria-label="Translator">
+      <div class="field">
+        <label for="morseBox">Type Morse</label>
+        <div class="textarea-wrap">
+          <textarea id="morseBox" rows="3" spellcheck="false" autocomplete="off"
+            autocapitalize="off" placeholder="Type Morse Code" aria-label="Morse code input — dots and dashes" aria-describedby="morseLive"></textarea>
+          <button class="copy-btn copy-inside" data-copy="morseBox" aria-label="Copy Morse" title="Copy Morse"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M3 8.5V3.2A1.2 1.2 0 0 1 4.2 2h5.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Copy</button>
+          <button class="sound-btn sound-inside" id="morseSoundBtn" aria-label="Toggle morse sound" aria-pressed="false" title="Morse beep on">
+            <svg class="sound-icn" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path class="spk-body" d="M3 9h4l5-4v12l-5-4H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path class="wave w1" d="M14.5 9a3.5 3.5 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path class="wave w2" d="M16.8 7a6 6 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.9"/>
+              <path class="mute-slash" d="M4 4l16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0"/>
+            </svg>
+            <span class="sound-label">Sound</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="textBox">Translation</label>
+        <div class="textarea-wrap">
+          <textarea id="textBox" rows="4" spellcheck="false" autocomplete="off"
+            autocapitalize="off" placeholder="Type English here and get Morse instantly" aria-label="Translation — English text"></textarea>
+          <button class="copy-btn copy-inside" data-copy="textBox" aria-label="Copy Text" title="Copy Text"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M3 8.5V3.2A1.2 1.2 0 0 1 4.2 2h5.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Copy</button>
+          <button class="voice-btn voice-inside" id="voiceBtn" aria-label="Voice to Morse" title="Voice to Morse">
+            <svg class="mic-icn" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 10a7 7 0 0 0 14 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 17v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 21h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span class="voice-label">Voice</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-reset" id="resetBtn" aria-label="Clear all">Reset</button>
+        <button class="btn" id="tableBtn" aria-expanded="false" aria-controls="tableWrap">Show Translation Table</button>
+      </div>
+    </section>
+
+    <section class="box table-wrap" id="tableWrap" hidden aria-label="Morse translation table">
+      <h2>Morse Translation Table</h2>
+      <div class="table-columns">
+        <div class="table-col" data-col>
+          <button class="table-toggle" aria-expanded="true" aria-controls="morseGrid"><span>Letters</span><svg class="toggle-arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="morse-grid" id="morseGrid"></div>
+        </div>
+        <div class="table-col" data-col>
+          <button class="table-toggle" aria-expanded="true" aria-controls="morseGridDigits"><span>Numbers</span><svg class="toggle-arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="morse-grid" id="morseGridDigits"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="aboutModal" class="modal" aria-labelledby="aboutTitle">
+    <div class="modal-head">
+      <h2 id="aboutTitle">About EYEM</h2>
+      <button class="icon-btn" id="aboutClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>EYEM</strong> turns your eye blinks, typed text, or voice into Morse code — live, in your browser. No install, no data leaves your device.</p>
+
+      <h3>How it works</h3>
+      <ol>
+        <li>Turn on the camera (button or press <code>C</code>). Face landmark tracking runs locally via MediaPipe Face Mesh. A 2–3s auto-calibration runs (purple vertical bar on the right side) — keep eyes open and face centered. Status pill shows Starting / Calibrating / No face / Off — Open/Closed is eye-icon only.</li>
+        <li>Eye Aspect Ratio (EAR) is smoothed over 5 frames. Closure length decides the symbol: quick blink (~0.15–0.70s) &rarr; <strong>dot (.)</strong> with 80ms beep, held closure (~0.70–2s) &rarr; <strong>dash (-)</strong> with 240ms beep at 700Hz. Under 0.15s is ignored as natural blink, over 2s is ignored. Toggle sound via the speaker button inside the Morse box (bottom-right, remembers choice).</li>
+        <li>Symbols stream into the <strong>Type Morse</strong> box automatically while the camera is on. Eye status is shown only by the eye icon top-right (purple open / white closed / dim no face / pulsing while calibrating).</li>
+        <li>The <strong>Translation</strong> box continuously decodes whatever is in the Morse box — and it works both ways: type English in Translation and Morse appears instantly. Voice input (press <code>M</code> or mic button) also fills Translation and auto-converts.</li>
+      </ol>
+
+      <h3>Blink guide</h3>
+      <ul>
+        <li>On start, a 2–3s auto-calibration runs — keep eyes open and face centered (purple vertical bar on the right side, disappears 1s after done)</li>
+        <li>Eye icon top-right shows live status: open / closed / no face. Status pill below only shows Starting / Calibrating / No face / Off — Open/Closed is icon-only.</li>
+        <li>Closure under 0.15s counts as a natural blink &mdash; ignored</li>
+        <li>Blink (~0.15s&ndash;0.70s) &rarr; dot <strong>.</strong> (80ms beep)</li>
+        <li>Held closure (~0.70s&ndash;2s) &rarr; dash <strong>-</strong> (240ms beep)</li>
+        <li>Closure longer than 2s is ignored</li>
+        <li><strong>Double blink</strong> &mdash; two blinks in a row (~0.4s apart) &rarr; new letter (space inserted)</li>
+        <li><strong>Triple blink</strong> &mdash; three blinks in a row &rarr; new word (<strong>/</strong> inserted)</li>
+        <li>No time limit between letters and words: nothing is inserted automatically &mdash; separators are always your explicit double/triple blink</li>
+        <li>Mistake? Press <code>F</code> to delete the last morse symbol (or “ / ” / “ ” as one step). Press <code>R</code> while camera is on to clear all (toast “Cleared — blink again to start.”).</li>
+      </ul>
+
+      <h3>Typing &amp; Controls guide</h3>
+      <p>Whenever the camera is off, both boxes accept keyboard input and translate each other live. When camera is on, both boxes are locked — blinks and shortcuts are your input.</p>
+      <ul>
+        <li>In the <strong>Type Morse</strong> box (placeholder: <code>Type Morse Code</code>) you type only <code>.</code> and <code>-</code>. Single <strong>space</strong> = new letter (<code>... --- ...</code> &rarr; SOS), <strong>two spaces</strong> or <code>/</code> = new word.</li>
+        <li>Example: <code>-- --- .-. ... .&nbsp;&nbsp;.-- --- .-. .-.. -..</code> &rarr; MORSE WORLD.</li>
+        <li>In the <strong>Translation</strong> box, simply type English and the matching Morse appears instantly.</li>
+        <li>Inside each box at the bottom-left there is a <strong>Copy</strong> button (pill with copy icon) to copy the whole box — bottom padding keeps text clear. Inside Morse box at bottom-right there is a <strong>Sound</strong> button (custom speaker icon with waves → slash when muted) to toggle morse beeps. Inside Translation box at bottom-right there is a <strong>Voice</strong> button (mic icon) — tap or press <code>M</code>, speak, and it auto-fills Translation + Morse. Uses Web Speech API (Chrome/Edge, HTTPS/localhost, respects camera lock and shows “Listening” pulse in red).</li>
+        <li><strong>Keyboard shortcuts</strong> (ignored while typing English, Esc closes About): <code>C</code> = toggle Camera, <code>M</code> = toggle Mic, <code>F</code> = delete last Morse symbol, <code>R</code> = Reset/Clear (only while camera is on).</li>
+        <li>All buttons play a light click sound (900→600Hz pop) on press — morse beeps are separate and mute-able.</li>
+      </ul>
+
+      <h3>Features</h3>
+      <ul>
+        <li>Real-time blink-to-Morse with auto-calibration, 5-frame EAR smoothing, side eye-status icon (no canvas overlay)</li>
+        <li>Vertical purple calibration bar on the side (site colors #7c3aed → #5b21b6) — disappears 1s after done, with “Calibrating %” label</li>
+        <li>Full Morse alphabet: A–Z, 0–9, and punctuation (. , ? ! / ( ) &amp; : ; = + - _ " $ @ ')</li>
+        <li>Live automatic Morse-to-text translation + bidirectional typing (Morse ↔ English)</li>
+        <li>Voice to Morse: mic button inside Translation box (bottom-right), red listening pulse, auto-fills both boxes — also via <code>M</code> shortcut</li>
+        <li>Morse audio feedback: dot 80ms / dash 240ms at 700Hz sine, with Sound toggle inside Morse box (bottom-right, custom speaker/waves icon, persists via localStorage, respects prefers-reduced-motion)</li>
+        <li>Copy buttons inside both boxes (bottom-left, pill, toast “Copied!”) + light click sound on every button (Web Audio, no files)</li>
+        <li>Compact, collapsible Translation Table: Letters / Numbers / Punctuation each have a ▼ arrow to collapse/expand; smaller cells (0.76rem) for denser view</li>
+        <li>Keyboard shortcuts: <code>C</code> Camera, <code>M</code> Mic, <code>F</code> delete last, <code>R</code> reset (camera-only) — smart typing detection so you can still type c/m/f normally</li>
+        <li>Accessibility: higher contrast muted #a99ac0, aria-labels on both textareas, aria-live polite live region for morse changes, focus trap + Esc + return-focus in About modal, body scroll lock</li>
+        <li>100% client-side processing — no video or voice ever leaves your device (MediaPipe in-browser, Speech API browser-native)</li>    
+
+      <h3>Tech</h3>
+      <ul>
+        <li>MediaPipe Face Landmarker (Tasks Vision 0.10.14, GPU→CPU fallback) via CDN, with WASM error handling</li>
+        <li>Vanilla HTML/CSS/JS — no build step, versioned cache-bust, Web Audio for clicks/beeps, Web Speech API (webkit fallback), navigator.clipboard</li>
+      </ul>
+
+      <h3>Who is EYEM for?</h3>
+      <ul>
+        <li><strong>People with limited mobility</strong> — such as those living with ALS, spinal cord injuries, or other motor impairments — who can blink reliably and need a hands-free way to communicate.</li>
+        <li><strong>Assistive-technology enthusiasts</strong> exploring how cameras and browser-based tools can open new channels of communication without special hardware.</li>
+        <li><strong>Developers, students, and researchers</strong> interested in computer vision, face landmark tracking, human-computer interaction, or eye-tracking experiments — EYEM is a simple, fully client-side reference implementation.</li>
+        <li><strong>Morse code learners and hobbyists</strong> who want an unusual, interactive way to practice sending dots and dashes.</li>
+        <li><strong>Anyone curious</strong> about controlling software with nothing but their eyes.</li>
+      </ul>
+
+      <h3>Credits</h3>
+      <p>Developed by <strong>Tareq khattab</strong></p>
+      <p class="credit-links">
+        <a href="https://github.com/tk-2f" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </div>
+  </dialog>
+
+  <button class="btn about-fab" id="aboutBtn">About EYEM</button>
+
+  <div id="toast" role="status" aria-live="assertive"></div>
+  <div id="morseLive" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <script src="js/morse.js?v=41" defer></script>
+  <script src="js/blink.js?v=41" defer></script>
+  <script src="js/app.js?v=41" defer></script>
+</body>
+</html>

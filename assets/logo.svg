@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 160" role="img" aria-label="EYEM logo">
+  <defs>
+    <linearGradient id="eyemStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B48CFF"/>
+      <stop offset="55%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <radialGradient id="eyemIris" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#9F67FF"/>
+      <stop offset="70%" stop-color="#5B21B6"/>
+      <stop offset="100%" stop-color="#2E1065"/>
+    </radialGradient>
+    <filter id="eyemGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#eyemGlow)">
+    <path d="M16 80 Q130 -12 244 80 Q130 172 16 80 Z" fill="#120A22" stroke="url(#eyemStroke)" stroke-width="9" stroke-linejoin="round"/>
+    <circle cx="130" cy="80" r="44" fill="url(#eyemIris)" stroke="#9F67FF" stroke-width="4"/>
+    <circle cx="130" cy="80" r="24" fill="#0A0A0F"/>
+    <path d="M117 93 L117 67 L130 83 L143 67 L143 93" fill="none" stroke="#F5F3F7" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="111" cy="57" rx="9" ry="5" transform="rotate(-32 111 57)" fill="#F5F3F7" opacity="0.6"/>
+  </g>
+</svg>
