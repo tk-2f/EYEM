@@ -756,9 +756,11 @@ html::-webkit-scrollbar-button, .modal::-webkit-scrollbar-button { display: none
 
 .quick-start {
   position: fixed;
-  left: 50%;
-  top: 16px;
-  transform: translateX(-50%) translateY(-12px);
+  left: auto;
+  right: 20px;
+  top: 165px;
+  bottom: auto;
+  transform: translateX(10px);
   z-index: 99;
   width: min(92vw, 520px);
   padding: 14px 40px 14px 16px;
@@ -776,7 +778,7 @@ html::-webkit-scrollbar-button, .modal::-webkit-scrollbar-button { display: none
 .quick-start.show {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(0);
 }
 .quick-start[hidden] { display: none; }
 .quick-title { color: var(--accent-soft); display: block; margin-bottom: 6px; font-size: 0.88rem; }
