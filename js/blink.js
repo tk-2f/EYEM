@@ -21,8 +21,8 @@ class BlinkEngine {
     this.MIN_BLINK_MS = 150;
     this.DOT_MAX_MS = 700;
     this.DASH_MAX_MS = 2000;
-    this.SEQUENCE_GAP_MS = 400;
-    this.FLUSH_IDLE_MS = 450;
+    this.SEQUENCE_GAP_MS = 700;
+    this.FLUSH_IDLE_MS = 750;
     this.lastClosedEnd = 0;
     this.seqCount = 0;
     this.seqFirstChar = "";

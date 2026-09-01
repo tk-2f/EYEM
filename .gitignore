@@ -1,0 +1,17 @@
+# deps
+node_modules/
+# build caches
+graphify-out/
+.graphify*/
+# OS
+.DS_Store
+Thumbs.db
+# editor
+.vscode/
+.idea/
+*.swp
+# env
+.env
+.env.local
+# local test
+test-eyem.js

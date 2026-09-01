@@ -6,7 +6,7 @@
   <meta name="description" content="EYEM translates eye blinks into Morse code and text, in real time, fully in your browser.">
   <title>EYEM — Eye-Blink Morse Translator</title>
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
-  <link rel="stylesheet" href="css/style.css?v=41">
+  <link rel="stylesheet" href="css/style.css?v=42">
 </head>
 <body>
   <header class="site-header">
@@ -114,9 +114,9 @@
         <li>Blink (~0.15s&ndash;0.70s) &rarr; dot <strong>.</strong> (80ms beep)</li>
         <li>Held closure (~0.70s&ndash;2s) &rarr; dash <strong>-</strong> (240ms beep)</li>
         <li>Closure longer than 2s is ignored</li>
-        <li><strong>Double blink</strong> &mdash; two blinks in a row (~0.4s apart) &rarr; new letter (space inserted)</li>
-        <li><strong>Triple blink</strong> &mdash; three blinks in a row &rarr; new word (<strong>/</strong> inserted)</li>
-        <li>No time limit between letters and words: nothing is inserted automatically &mdash; separators are always your explicit double/triple blink</li>
+        <li><strong>Double blink</strong> &mdash; two blinks in a row (~0.7s apart) &rarr; new letter (space inserted)</li>
+        <li><strong>Triple blink</strong> &mdash; three blinks in a row (~0.7s apart) &rarr; new word (<strong>/</strong> inserted)</li>
+        <li>Relaxed timing: 700ms window between blinks, 750ms to confirm — easier for word spacing</li>
         <li>Mistake? Press <code>F</code> to delete the last morse symbol (or “ / ” / “ ” as one step). Press <code>R</code> while camera is on to clear all (toast “Cleared — blink again to start.”).</li>
       </ul>
 
@@ -173,8 +173,8 @@
   <div id="toast" role="status" aria-live="assertive"></div>
   <div id="morseLive" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <script src="js/morse.js?v=41" defer></script>
-  <script src="js/blink.js?v=41" defer></script>
-  <script src="js/app.js?v=41" defer></script>
+  <script src="js/morse.js?v=42" defer></script>
+  <script src="js/blink.js?v=42" defer></script>
+  <script src="js/app.js?v=42" defer></script>
 </body>
 </html>
