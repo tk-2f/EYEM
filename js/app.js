@@ -586,8 +586,8 @@
       timer = setTimeout(hideQS, 30000);
     }
     if (qc) qc.addEventListener("click", hideQS);
-    // show after 10s
-    setTimeout(showQS, 10000);
+    // show after 5s
+    setTimeout(showQS, 5000);
   })();
   setMorse("");
 })();
