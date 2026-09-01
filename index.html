@@ -6,7 +6,7 @@
   <meta name="description" content="EYEM translates eye blinks into Morse code and text, in real time, fully in your browser.">
   <title>EYEM — Eye-Blink Morse Translator</title>
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
-  <link rel="stylesheet" href="css/style.css?v=43">
+  <link rel="stylesheet" href="css/style.css?v=44">
 </head>
 <body>
   <header class="site-header">
@@ -98,16 +98,6 @@
     <div class="modal-body">
       <p><strong>EYEM</strong> turns your eye blinks, typed text, or voice into Morse code — live, in your browser. No install, no data leaves your device.</p>
 
-      <div style="background:rgba(124,58,237,0.12);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:14px 0;">
-        <strong style="color:var(--accent-soft);">⚡ Quick Start — 30 seconds</strong>
-        <ol style="margin:8px 0 0 18px;display:grid;gap:4px;">
-          <li>Open the link (or press <code>C</code>) → <strong>Start Camera</strong> → allow permission</li>
-          <li>Keep eyes open 2–3s (purple bar) — calibration</li>
-          <li>Blink = <strong>.</strong> · Hold ~1s = <strong>—</strong> · Double blink = new letter · Triple = new word (<code>/</code>)</li>
-          <li>No camera? Just type or press <code>M</code> to speak</li>
-        </ol>
-      </div>
-
       <h3>How it works</h3>
       <ol>
         <li>Turn on the camera (button or press <code>C</code>). Face landmark tracking runs locally via MediaPipe Face Mesh. A 2–3s auto-calibration runs (purple vertical bar on the right side) — keep eyes open and face centered. Status pill shows Starting / Calibrating / No face / Off — Open/Closed is eye-icon only.</li>
@@ -188,11 +178,22 @@
 
   <button class="btn about-fab" id="aboutBtn">About EYEM</button>
 
+  <div id="quickStart" class="quick-start" role="status" aria-live="polite" hidden>
+    <button class="quick-close" id="quickClose" aria-label="Close">×</button>
+    <strong class="quick-title">⚡ Quick Start — 30 seconds</strong>
+    <ol>
+      <li>Press <code>C</code> → <strong>Start Camera</strong> → allow permission</li>
+      <li>Keep eyes open 2–3s (purple bar)</li>
+      <li>Blink = <strong>.</strong> · Hold ~1s = <strong>—</strong> · Double = letter · Triple = word (<code>/</code>)</li>
+      <li>No camera? Type or press <code>M</code> to speak</li>
+    </ol>
+  </div>
+
   <div id="toast" role="status" aria-live="assertive"></div>
   <div id="morseLive" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <script src="js/morse.js?v=43" defer></script>
-  <script src="js/blink.js?v=43" defer></script>
-  <script src="js/app.js?v=43" defer></script>
+  <script src="js/morse.js?v=44" defer></script>
+  <script src="js/blink.js?v=44" defer></script>
+  <script src="js/app.js?v=44" defer></script>
 </body>
 </html>

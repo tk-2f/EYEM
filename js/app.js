@@ -567,5 +567,27 @@
   document.querySelectorAll(".table-toggle").forEach((btn) => {
     if (!btn._bound) { btn._bound = true; }
   });
+  // Quick Start banner — shows 30s, hover shows X to close
+  (function () {
+    const qs = document.getElementById("quickStart");
+    const qc = document.getElementById("quickClose");
+    if (!qs) return;
+    let timer = null;
+    function hideQS() {
+      qs.classList.remove("show");
+      setTimeout(() => { qs.hidden = true; }, 300);
+      if (timer) { clearTimeout(timer); timer = null; }
+    }
+    function showQS() {
+      qs.hidden = false;
+      // force reflow then animate
+      void qs.offsetWidth;
+      qs.classList.add("show");
+      timer = setTimeout(hideQS, 30000);
+    }
+    if (qc) qc.addEventListener("click", hideQS);
+    // show shortly after load
+    setTimeout(showQS, 800);
+  })();
   setMorse("");
 })();
