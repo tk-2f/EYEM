@@ -584,16 +584,23 @@ body:not(.camera-live) .eye-indicator { display: none; }
   background: var(--panel-deep);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.76rem;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .ltr {
   font-weight: 700;
   color: var(--accent-soft);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .code {
   letter-spacing: 0.12em;
   color: var(--text);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .modal {
