@@ -583,7 +583,7 @@
       // force reflow then animate
       void qs.offsetWidth;
       qs.classList.add("show");
-      timer = setTimeout(hideQS, 30000);
+      timer = setTimeout(hideQS, 20000);
     }
     if (qc) qc.addEventListener("click", hideQS);
     // show after 5s
