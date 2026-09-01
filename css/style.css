@@ -732,7 +732,7 @@ html::-webkit-scrollbar-button, .modal::-webkit-scrollbar-button { display: none
   position: fixed;
   left: auto;
   right: 20px;
-  top: 125px;
+  top: 72px;
   bottom: auto;
   transform: translateX(10px);
   z-index: 100;
@@ -758,7 +758,7 @@ html::-webkit-scrollbar-button, .modal::-webkit-scrollbar-button { display: none
   position: fixed;
   left: auto;
   right: 20px;
-  top: 125px;
+  top: 72px;
   bottom: auto;
   transform: translateX(10px);
   z-index: 99;
