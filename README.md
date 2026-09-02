@@ -38,8 +38,7 @@
 ### 📸 Preview
 
 <p align="center">
-  <img src="assets/screenshot-ui.png" width="850" alt="EYEM UI — Camera, Morse and Translation boxes">
-</p>
+<img src="https://raw.githubusercontent.com/tk-2f/EYEM/main/assets/screenshot-ui.png" width="850" alt="EYEM UI"></p>
 
 ---
 
